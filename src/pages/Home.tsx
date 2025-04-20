@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import MainLayout from "@/layouts/main-layout";
-// Remove the import and use the public path instead
 
 export default function Home() {
   return (
