@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import MainLayout from "@/layouts/main-layout";
-
+// Import the image correctly with lowercase extension
+import RohanProfileImg from "../assets/Rohan_Nag_Profile.jpg";
 
 export default function Home() {
   return (
@@ -46,7 +47,7 @@ export default function Home() {
             <div className="md:w-1/3">
               <div className="w-48 h-48 rounded-full overflow-hidden bg-muted">
                 <img 
-                  src="../assets/Rohan_Nag_Profile.JPG"
+                  src={RohanProfileImg}
                   alt="Rohan Nag" 
                   className="w-full h-full object-cover"
                 />
