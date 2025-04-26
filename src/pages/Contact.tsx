@@ -10,7 +10,10 @@ export default function Contact() {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
+  const [formStatus, setFormStatus] = useState<{
+    type: "success" | "error" | null;
+    message: string;
+  }>({ type: null, message: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormState({
@@ -23,25 +26,77 @@ export default function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Show popup after a brief delay to simulate processing
-    setTimeout(() => {
+    try {
+      // Concatenate subject and message for delivery
+      const combinedMessage = `Subject: ${formState.subject}\n\nMessage: ${formState.message}`;
+      
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "12868e74-7c6b-40d5-8cd4-c757516ffb0d",
+          name: formState.name,
+          email: formState.email,
+          subject: formState.subject,
+          message: combinedMessage,  // Send the combined message here
+        }),
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        // Reset form on success
+        setFormState({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+        setFormStatus({
+          type: "success",
+          message: "Your message has been sent successfully! I'll get back to you soon."
+        });
+      } else {
+        setFormStatus({
+          type: "error",
+          message: "Something went wrong. Please try again."
+        });
+      }
+    } catch (error) {
+      setFormStatus({
+        type: "error",
+        message: "An error occurred. Please try again later."
+      });
+    } finally {
       setIsSubmitting(false);
-      setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
-    }, 1000);
+      
+      // Clear success message after some time
+      if (formStatus.type === "success") {
+        setTimeout(() => {
+          setFormStatus({ type: null, message: "" });
+        }, 5000);
+      }
+    }
   };
 
   return (
     <MainLayout>
-      {/* Popup message */}
-      {showPopup && (
+      {/* Status message */}
+      {formStatus.type && (
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
-          className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-primary text-primary-foreground px-6 py-3 rounded-lg shadow-lg"
+          className={`fixed top-20 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg ${
+            formStatus.type === "success" 
+              ? "bg-green-600 text-white" 
+              : "bg-red-600 text-white"
+          }`}
         >
-          <p className="font-medium">This feature is coming soon!</p>
+          <p className="font-medium">{formStatus.message}</p>
         </motion.div>
       )}
 
@@ -131,6 +186,9 @@ export default function Contact() {
                 <h3 className="text-lg font-semibold mb-4">Send Me a Message</h3>
                 
                 <form onSubmit={handleSubmit}>
+                  <input type="hidden" name="access_key" value="12868e74-7c6b-40d5-8cd4-c757516ffb0d" />
+                  <input type="hidden" name="redirect" value="false" />
+                  
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium mb-1">
