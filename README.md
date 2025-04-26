@@ -3,7 +3,7 @@
 
 ## 🌟 Overview
 
-This is my personal portfolio website showcasing my skills, projects, and professional experience as a DevOps Engineer and Software Developer. The website is built using modern web technologies and deployed on Firebase.
+This is my personal portfolio website showcasing my skills, projects, and professional experience as a DevOps Engineer and Software Developer. The website is built using modern web technologies and deployed on Vercel.
 
 Visit the live site: [https://rohannag.me](https://rohannag.me)
 
@@ -72,20 +72,17 @@ npm run preview
 
 ### Deployment
 
-The site is configured for deployment to Firebase Hosting.
+The site is configured for deployment to Vercel.
 
 ```bash
-# Install Firebase CLI if not already installed
-npm install -g firebase-tools
+# Build the project
+npm run build
 
-# Login to Firebase
-firebase login
+# Deploy using Vercel CLI (if installed)
+vercel --prod
 
-# Initialize Firebase project (first time only)
-firebase init
-
-# Deploy to Firebase
-firebase deploy --only hosting
+# Or simply push to your GitHub repository
+# with Vercel integration for automatic deployment
 ```
 
 ## 📝 License
