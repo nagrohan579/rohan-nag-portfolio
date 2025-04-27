@@ -11,6 +11,14 @@ export default function handler(req, res) {
       keywords: "Kubernetes tutorial, Kubernetes for beginners, K8s guide, container orchestration, DevOps Kubernetes",
       author: "Rohan Nag",
       date: "April 15, 2025"
+    },
+    'jenkins-cicd-aws': {
+      title: "Setting Up a Jenkins CI/CD Pipeline on AWS | Rohan Nag's Blog",
+      description: "Learn how to set up a Jenkins CI/CD pipeline on AWS to automate your build and deployment processes in a scalable environment, from EC2 instance creation to running your first build.",
+      imageUrl: "/images/jenkins-cicd-aws.jpg",
+      keywords: "Jenkins AWS setup, Jenkins CI/CD pipeline, AWS EC2 Jenkins installation, Continuous integration with Jenkins, Jenkins tutorial AWS, DevOps Jenkins AWS guide",
+      author: "Rohan Nag",
+      date: "April 25, 2025"
     }
     // Add more blog posts here as you create them
   };
