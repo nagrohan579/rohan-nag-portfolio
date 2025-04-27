@@ -59,14 +59,24 @@ export default function SEO({
   const path = location.pathname;
   const currentUrl = window.location.origin + path;
   
-  // Get page-specific metadata or use defaults
-  const pageSEO = pageMeta[path] || { title: DEFAULT_TITLE, description: DEFAULT_DESCRIPTION };
+  // Check if we're on a blog post page (dynamic route)
+  const isBlogPost = path.startsWith('/blog/');
   
-  // Use custom props if provided, otherwise use route-based metadata
-  const finalTitle = title || pageSEO.title;
-  const finalDescription = description || pageSEO.description;
+  // For blog posts, prioritize the directly passed props instead of looking up in pageMeta
+  let finalTitle = title || DEFAULT_TITLE;
+  let finalDescription = description || DEFAULT_DESCRIPTION;
+  
+  // Only use pageMeta if this is not a blog post or if title/description weren't provided
+  if (!isBlogPost || !title) {
+    // Get page-specific metadata or use defaults
+    const pageSEO = pageMeta[path] || { title: DEFAULT_TITLE, description: DEFAULT_DESCRIPTION };
+    finalTitle = title || pageSEO.title;
+    finalDescription = description || pageSEO.description;
+  }
+  
   const finalType = isArticle ? "article" : type;
   const keywordsString = keywords.join(", ");
+  const finalImage = image || DEFAULT_IMAGE;
 
   useEffect(() => {
     // Update document title
@@ -94,13 +104,13 @@ export default function SEO({
     const metaTags = [
       { property: 'og:title', content: finalTitle },
       { property: 'og:description', content: finalDescription },
-      { property: 'og:image', content: `${window.location.origin}${image}` },
+      { property: 'og:image', content: finalImage.startsWith('http') ? finalImage : `${window.location.origin}${finalImage}` },
       { property: 'og:url', content: currentUrl },
       { property: 'og:type', content: finalType },
       { property: 'twitter:card', content: 'summary_large_image' },
       { property: 'twitter:title', content: finalTitle },
       { property: 'twitter:description', content: finalDescription },
-      { property: 'twitter:image', content: `${window.location.origin}${image}` }
+      { property: 'twitter:image', content: finalImage.startsWith('http') ? finalImage : `${window.location.origin}${finalImage}` }
     ];
 
     // Add article specific meta tags if it's a blog post
@@ -113,13 +123,15 @@ export default function SEO({
 
     // Set or create meta tags
     metaTags.forEach(({ property, content }) => {
-      let metaTag = document.querySelector(`meta[property="${property}"]`);
-      if (!metaTag) {
-        metaTag = document.createElement('meta');
-        metaTag.setAttribute('property', property);
-        document.head.appendChild(metaTag);
+      if (content) { // Only set meta tag if content is not undefined
+        let metaTag = document.querySelector(`meta[property="${property}"]`);
+        if (!metaTag) {
+          metaTag = document.createElement('meta');
+          metaTag.setAttribute('property', property);
+          document.head.appendChild(metaTag);
+        }
+        metaTag.setAttribute('content', content);
       }
-      metaTag.setAttribute('content', content);
     });
     
     // Update canonical URL
@@ -131,7 +143,7 @@ export default function SEO({
     }
     canonical.setAttribute('href', currentUrl);
     
-  }, [finalTitle, finalDescription, image, finalType, currentUrl, keywordsString, isArticle, date, author]);
+  }, [finalTitle, finalDescription, finalImage, finalType, currentUrl, keywordsString, isArticle, date, author]);
 
   return null;
 }
