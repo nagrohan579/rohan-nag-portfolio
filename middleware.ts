@@ -1,5 +1,5 @@
-// This is a Vercel Edge Middleware to handle social media crawlers and SEO
-import { NextRequest, NextResponse } from 'next/server';
+// This is a Vercel Edge Middleware for handling social media crawlers and SEO
+// No Next.js dependencies
 
 // Blog post data - keep this in sync with your actual blog data
 const blogPosts = {
@@ -39,13 +39,13 @@ export const config = {
   matcher: '/blog/:slug*',
 };
 
-export function middleware(request: NextRequest) {
+export default function middleware(request) {
   const url = new URL(request.url);
   const path = url.pathname;
   
   // Check if it's a blog post path (not just /blog/)
   if (path === '/blog' || path === '/blog/') {
-    return NextResponse.next();
+    return new Response(null, { status: 200 });
   }
   
   // Extract slug from path like /blog/getting-started-with-kubernetes
@@ -53,7 +53,7 @@ export function middleware(request: NextRequest) {
   const postData = blogPosts[slug];
   
   if (!postData) {
-    return NextResponse.next();
+    return new Response(null, { status: 200 });
   }
   
   // Check if it's a social crawler by inspecting the user agent
@@ -61,7 +61,7 @@ export function middleware(request: NextRequest) {
   const isCrawler = CRAWLERS.some(crawler => userAgent.includes(crawler.toLowerCase()));
   
   if (!isCrawler) {
-    return NextResponse.next();
+    return new Response(null, { status: 200 });
   }
   
   // Prepare the full image URL

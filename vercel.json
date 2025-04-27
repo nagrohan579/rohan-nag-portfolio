@@ -1,16 +1,5 @@
 {
   "rewrites": [
-    { 
-      "source": "/blog/:slug",
-      "has": [
-        {
-          "type": "header",
-          "key": "user-agent",
-          "value": "(whatsapp|facebook|twitter|linkedin|telegram|discord|slack|bot|googlebot|bingbot|yandex|baiduspider|pinterest|facebookexternalhit|twitterbot)"
-        }
-      ],
-      "destination": "/api/social-crawler?slug=:slug" 
-    },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
@@ -23,5 +12,11 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/social-crawler.js": {
+      "memory": 256,
+      "maxDuration": 10
+    }
+  }
 }
