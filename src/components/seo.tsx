@@ -60,14 +60,14 @@ export default function SEO({
   const currentUrl = window.location.origin + path;
   
   // Check if we're on a blog post page (dynamic route)
-  const isBlogPost = path.startsWith('/blog/');
+  const isBlogPost = path.startsWith('/blog/') && path !== '/blog/';
   
   // For blog posts, prioritize the directly passed props instead of looking up in pageMeta
   let finalTitle = title || DEFAULT_TITLE;
   let finalDescription = description || DEFAULT_DESCRIPTION;
   
   // Only use pageMeta if this is not a blog post or if title/description weren't provided
-  if (!isBlogPost || !title) {
+  if (!isBlogPost && !title) {
     // Get page-specific metadata or use defaults
     const pageSEO = pageMeta[path] || { title: DEFAULT_TITLE, description: DEFAULT_DESCRIPTION };
     finalTitle = title || pageSEO.title;
@@ -76,9 +76,12 @@ export default function SEO({
   
   const finalType = isArticle ? "article" : type;
   const keywordsString = keywords.join(", ");
-  const finalImage = image || DEFAULT_IMAGE;
+  const finalImage = image.startsWith('http') ? image : `${window.location.origin}${image}`;
 
   useEffect(() => {
+    // Skip SEO updates for blog posts as those are handled directly in the BlogPost component
+    if (isBlogPost) return;
+    
     // Update document title
     document.title = finalTitle;
     
@@ -104,13 +107,13 @@ export default function SEO({
     const metaTags = [
       { property: 'og:title', content: finalTitle },
       { property: 'og:description', content: finalDescription },
-      { property: 'og:image', content: finalImage.startsWith('http') ? finalImage : `${window.location.origin}${finalImage}` },
+      { property: 'og:image', content: finalImage },
       { property: 'og:url', content: currentUrl },
       { property: 'og:type', content: finalType },
       { property: 'twitter:card', content: 'summary_large_image' },
       { property: 'twitter:title', content: finalTitle },
       { property: 'twitter:description', content: finalDescription },
-      { property: 'twitter:image', content: finalImage.startsWith('http') ? finalImage : `${window.location.origin}${finalImage}` }
+      { property: 'twitter:image', content: finalImage }
     ];
 
     // Add article specific meta tags if it's a blog post
@@ -143,7 +146,7 @@ export default function SEO({
     }
     canonical.setAttribute('href', currentUrl);
     
-  }, [finalTitle, finalDescription, finalImage, finalType, currentUrl, keywordsString, isArticle, date, author]);
+  }, [finalTitle, finalDescription, finalImage, finalType, currentUrl, keywordsString, isArticle, date, author, isBlogPost]);
 
   return null;
 }
