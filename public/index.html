@@ -1,17 +1,75 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rohan Nag | DevOps Engineer & Software Developer Portfolio</title>
+    <meta name="description" content="Portfolio of Rohan Nag - DevOps Engineer and Software Developer specializing in cloud technologies and DevOps practices. View my projects, experience, and skills." />
+    <meta name="keywords" content="Rohan Nag, DevOps, Software Developer, Portfolio, Kubernetes, AWS, Cloud Computing, Containerization, CI/CD, Jenkins, Docker" />
+    <meta name="author" content="Rohan Nag" />
     
-    <!-- Redirect to the React application's index.html -->
-    <meta http-equiv="refresh" content="0;url=/" />
-    <script>
-      window.location.replace("/");
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rohannag.me/" />
+    <meta property="og:title" content="Rohan Nag | DevOps Engineer & Software Developer Portfolio" />
+    <meta property="og:description" content="Portfolio of Rohan Nag - DevOps Engineer and Software Developer specializing in cloud technologies and DevOps practices." />
+    <meta property="og:image" content="https://rohannag.me/images/Rohan_Nag_Profile.JPG" />
+    
+    <!-- Twitter / X -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://rohannag.me/" />
+    <meta property="twitter:title" content="Rohan Nag | DevOps Engineer & Software Developer Portfolio" />
+    <meta property="twitter:description" content="Portfolio of Rohan Nag - DevOps Engineer and Software Developer specializing in cloud technologies and DevOps practices." />
+    <meta property="twitter:image" content="https://rohannag.me/images/Rohan_Nag_Profile.JPG" />
+    
+    <!-- Blog specific tags (will be dynamically replaced) -->
+    <meta property="article:publisher" content="https://rohannag.me" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://rohannag.me/" />
+    
+    <!-- Robots -->
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Structured data for better SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Rohan Nag",
+        "url": "https://rohannag.me/",
+        "sameAs": [
+          "https://github.com/nagrohan579",
+          "https://www.linkedin.com/in/rohan-nag-a16b59230/",
+          "https://x.com/RohanNag999"
+        ],
+        "jobTitle": "DevOps Engineer",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Calsoft"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Asansol Engineering College"
+        },
+        "description": "DevOps Engineer and Software Developer specializing in cloud technologies and automation."
+      }
+    </script>
+    
+    <!-- Blog post schema (dynamically populated for blog pages) -->
+    <script type="application/ld+json" id="blogPostSchema">
+      {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Rohan Nag's Technical Blog",
+        "description": "Technical articles on DevOps, cloud computing, and software development by Rohan Nag",
+        "url": "https://rohannag.me/blog"
+      }
     </script>
   </head>
   <body>
-    <p>If you are not redirected automatically, please click <a href="/">here</a>.</p>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
