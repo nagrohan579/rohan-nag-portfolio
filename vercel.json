@@ -1,6 +1,27 @@
 {
-    "rewrites": [
-      { "source": "/(.*)", "destination": "/index.html" }
-    ]
-  }
-  
+  "rewrites": [
+    { 
+      "source": "/blog/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(whatsapp|facebook|twitter|linkedin|telegram|discord|slack|bot|googlebot|bingbot|yandex|baiduspider|pinterest|facebookexternalhit|twitterbot)"
+        }
+      ],
+      "destination": "/api/social-crawler?slug=:slug" 
+    },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/blog/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
+        }
+      ]
+    }
+  ]
+}
