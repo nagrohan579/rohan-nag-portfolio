@@ -51,25 +51,85 @@ export default function middleware(request) {
   const url = new URL(request.url);
   const path = url.pathname;
   
-  // Check if it's a blog post path (not just /blog/)
-  if (path === '/blog' || path === '/blog/') {
-    return new Response(null, { status: 200 });
+  // Check if the request is from a crawler
+  const userAgent = request.headers.get('user-agent')?.toLowerCase() || '';
+  const isCrawler = CRAWLERS.some(crawler => userAgent.includes(crawler.toLowerCase()));
+  
+  // If it's not a crawler, we don't need special handling - let React Router handle it
+  if (!isCrawler) {
+    // Forward the request to continue normal processing (will be handled by vercel.json rewrites)
+    return undefined;
   }
   
-  // Extract slug from path like /blog/getting-started-with-kubernetes
+  // For crawlers, we'll provide optimized metadata
+  
+  // If it's the main blog index page
+  if (path === '/blog' || path === '/blog/') {
+    // Create a special SEO-friendly version of the blog index for crawlers
+    const html = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Technical Blog | Rohan Nag - DevOps Engineer & Software Developer</title>
+    <meta name="description" content="Technical articles on DevOps, cloud computing, and software development by Rohan Nag" />
+    <meta name="keywords" content="DevOps blog, cloud computing articles, software development tutorials, Kubernetes, AWS, Jenkins" />
+    <meta name="author" content="Rohan Nag" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${url.href}" />
+    <meta property="og:title" content="Technical Blog | Rohan Nag - DevOps Engineer & Software Developer" />
+    <meta property="og:description" content="Technical articles on DevOps, cloud computing, and software development by Rohan Nag" />
+    <meta property="og:image" content="${url.origin}/images/Rohan_Nag_Profile.JPG" />
+    
+    <!-- Twitter / X -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="${url.href}" />
+    <meta property="twitter:title" content="Technical Blog | Rohan Nag - DevOps Engineer & Software Developer" />
+    <meta property="twitter:description" content="Technical articles on DevOps, cloud computing, and software development by Rohan Nag" />
+    <meta property="twitter:image" content="${url.origin}/images/Rohan_Nag_Profile.JPG" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="${url.href}" />
+  </head>
+  <body>
+    <h1>Rohan Nag's Technical Blog</h1>
+    <p>Technical articles on DevOps, cloud computing, and software development</p>
+    
+    <h2>Latest Articles</h2>
+    <ul>
+      <li>
+        <a href="${url.origin}/blog/getting-started-with-kubernetes">
+          Getting Started with Kubernetes for Beginners
+        </a>
+        <p>Learn Kubernetes fundamentals for beginners</p>
+      </li>
+      <li>
+        <a href="${url.origin}/blog/jenkins-cicd-aws">
+          Setting Up a Jenkins CI/CD Pipeline on AWS
+        </a>
+        <p>Learn how to set up a Jenkins CI/CD pipeline on AWS</p>
+      </li>
+    </ul>
+  </body>
+</html>`;
+    
+    return new Response(html, {
+      headers: {
+        'content-type': 'text/html',
+        'cache-control': 'public, max-age=3600'
+      }
+    });
+  }
+  
+  // Handle individual blog posts for crawlers
   const slug = path.replace('/blog/', '');
   const postData = blogPosts[slug];
   
   if (!postData) {
-    return new Response(null, { status: 200 });
-  }
-  
-  // Check if it's a social crawler by inspecting the user agent
-  const userAgent = request.headers.get('user-agent')?.toLowerCase() || '';
-  const isCrawler = CRAWLERS.some(crawler => userAgent.includes(crawler.toLowerCase()));
-  
-  if (!isCrawler) {
-    return new Response(null, { status: 200 });
+    // If blog post doesn't exist in our data, just pass through to normal processing
+    return undefined;
   }
   
   // Prepare the full image URL
@@ -106,14 +166,6 @@ export default function middleware(request) {
     
     <!-- Canonical URL -->
     <link rel="canonical" href="${url.href}" />
-    
-    <!-- Redirect non-crawler users -->
-    <script>
-      // Check if this is a real browser and not a crawler
-      if (navigator.userAgent && !${JSON.stringify(CRAWLERS)}.some(bot => navigator.userAgent.toLowerCase().includes(bot))) {
-        window.location.href = "${url.href}";
-      }
-    </script>
   </head>
   <body>
     <h1>${postData.title}</h1>
