@@ -27,50 +27,14 @@ const blogPosts: BlogPostProps[] = [
     featured: true
   },
   {
-    title: "Building CI/CD Pipelines with GitHub Actions",
-    excerpt: "Discover how to create efficient CI/CD pipelines using GitHub Actions to automate your software testing and deployment processes.",
-    date: "March 28, 2025",
-    slug: "building-cicd-pipelines-github-actions",
+    title: "Setting Up a Jenkins CI/CD Pipeline on AWS: A Step-by-Step Guide",
+    excerpt: "Learn how to set up a Jenkins CI/CD pipeline on AWS to automate your build and deployment processes in a scalable environment, from EC2 instance creation to running your first build.",
+    date: "April 25, 2025",
+    slug: "jenkins-cicd-aws",
     category: "DevOps",
-    coverImage: "/placeholder-image-2.jpg",
-    readTime: "6 min read"
-  },
-  {
-    title: "React Performance Optimization Techniques",
-    excerpt: "Explore advanced techniques to optimize your React applications for better performance and user experience.",
-    date: "February 12, 2025",
-    slug: "react-performance-optimization",
-    category: "Frontend",
-    coverImage: "/placeholder-image-3.jpg",
+    coverImage: "/images/jenkins-cicd-aws.jpg",
     readTime: "10 min read",
     featured: true
-  },
-  {
-    title: "Introduction to AWS Lambda and Serverless Architecture",
-    excerpt: "Dive into the world of serverless computing with AWS Lambda and learn how to build scalable applications without managing servers.",
-    date: "January 30, 2025",
-    slug: "introduction-aws-lambda-serverless",
-    category: "Cloud",
-    coverImage: "/placeholder-image-4.jpg",
-    readTime: "7 min read"
-  },
-  {
-    title: "Data Structures Every Programmer Should Know",
-    excerpt: "A comprehensive guide to essential data structures that will help you write more efficient and optimized code.",
-    date: "December 10, 2024",
-    slug: "essential-data-structures",
-    category: "Programming",
-    coverImage: "/placeholder-image-5.jpg",
-    readTime: "12 min read"
-  },
-  {
-    title: "Securing Your Web Applications: Best Practices",
-    excerpt: "Learn how to protect your web applications from common security threats with these proven best practices and techniques.",
-    date: "November 5, 2024",
-    slug: "web-application-security-best-practices",
-    category: "Security",
-    coverImage: "/placeholder-image-6.jpg",
-    readTime: "9 min read"
   }
 ];
 
@@ -87,8 +51,8 @@ export default function Blog() {
     : blogPosts.filter(post => post.category === selectedCategory);
 
   const handleBlogClick = (slug: string, e: React.MouseEvent<HTMLAnchorElement>) => {
-    // If the blog post exists (currently only Kubernetes), allow it to navigate
-    if (slug !== "getting-started-with-kubernetes") {
+    // Allow navigation for both Kubernetes and Jenkins blog posts
+    if (slug !== "getting-started-with-kubernetes" && slug !== "jenkins-cicd-aws") {
       e.preventDefault();
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds

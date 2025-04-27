@@ -1,10 +1,7 @@
 // src/data/blog-posts/index.ts
 import { BlogPostDetail } from './getting-started-with-kubernetes';
 import kubernetesPost from './getting-started-with-kubernetes';
-
-// Import any additional blog posts here
-// import nextJsPost from './nextjs-for-beginners';
-// import reactPost from './mastering-react-hooks';
+import jenkinsPost from './jenkins-cicd-aws';
 
 // Export the BlogPostDetail type for use in other components
 export type { BlogPostDetail };
@@ -12,9 +9,7 @@ export type { BlogPostDetail };
 // Create a record of all blog posts with their slugs as keys
 export const blogPosts: Record<string, BlogPostDetail> = {
   'getting-started-with-kubernetes': kubernetesPost,
-  // Add additional blog posts here
-  // 'nextjs-for-beginners': nextJsPost,
-  // 'mastering-react-hooks': reactPost,
+  'jenkins-cicd-aws': jenkinsPost,
 };
 
 // Function to get a blog post by slug

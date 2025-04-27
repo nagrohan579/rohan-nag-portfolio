@@ -53,25 +53,91 @@ export default function BlogPost({ post }: BlogPostProps) {
 
   // Helper function to render text content with proper formatting
   const renderTextContent = (text: string) => {
-    // Improved bullet point handling - specific pattern for the issue in the screenshot
-    text = text.replace(/^- ([^:]+): (.*)/gm, '<div class="mb-3"><ul class="list-disc pl-6 mb-1"><li><strong>$1:</strong> $2</li></ul></div>');
+    // Process headings first
+    text = text.replace(/^# (.*$)/gm, '<h1 class="text-4xl font-bold mt-10 mb-6">$1</h1>');
+    text = text.replace(/^## (.*$)/gm, '<h2 className="text-3xl font-bold mt-8 mb-5">$1</h2>');
+    text = text.replace(/^### (.*$)/gm, '<h3 className="text-2xl font-semibold mt-6 mb-4">$1</h3>');
     
-    // General bullet point handling
-    text = text.replace(/^- (.*)/gm, '<div class="mb-3"><ul class="list-disc pl-6 mb-1"><li>$1</li></ul></div>');
+    // Pre-process nested lists more carefully - identify list sections
+    let processedText = '';
+    const lines = text.split('\n');
+    let i = 0;
     
-    // Process headings
-    text = text.replace(/^# (.*$)/gm, '<h1 class="text-3xl font-bold mt-8 mb-4">$1</h1>');
-    text = text.replace(/^## (.*$)/gm, '<h2 class="text-2xl font-bold mt-8 mb-4">$1</h2>');
-    text = text.replace(/^### (.*$)/gm, '<h3 class="text-xl font-bold mt-6 mb-3">$1</h3>');
+    while (i < lines.length) {
+      const line = lines[i].trim();
+      
+      // If line starts with a bullet point (-)
+      if (line.startsWith('- ')) {
+        let listHtml = '<ul class="list-disc ml-5 my-4">\n';
+        let j = i;
+        
+        // Process all consecutive lines that are part of this list
+        while (j < lines.length && (lines[j].trim().startsWith('- ') || lines[j].trim().startsWith('  - '))) {
+          const currentLine = lines[j].trim();
+          
+          if (currentLine.startsWith('- ')) {
+            // Main bullet item
+            if (j > i) {
+              // Close previous item if not the first bullet
+              listHtml += '</li>\n';
+            }
+            
+            // Extract content and check for special formatting like "Term: Definition"
+            let content = currentLine.substring(2);
+            if (content.includes(': ') && !content.includes('</strong>')) {
+              const parts = content.split(': ');
+              content = `<strong>${parts[0]}:</strong> ${parts.slice(1).join(': ')}`;
+            }
+            
+            // Process inline code within the list item
+            content = content.replace(/`([^`]+)`/g, '<code class="bg-muted px-1.5 py-0.5 rounded text-sm font-mono inline">$1</code>');
+            
+            listHtml += `<li>${content}`;
+            
+            // Look ahead for nested items
+            if (j + 1 < lines.length && lines[j + 1].trim().startsWith('  - ')) {
+              listHtml += '\n<ul class="list-disc ml-5 my-2">\n';
+              j++;
+              
+              // Process all consecutive nested items
+              while (j < lines.length && lines[j].trim().startsWith('  - ')) {
+                let nestedContent = lines[j].trim().substring(2);
+                // Process inline code within nested list items
+                nestedContent = nestedContent.replace(/`([^`]+)`/g, '<code class="bg-muted px-1.5 py-0.5 rounded text-sm font-mono inline">$1</code>');
+                listHtml += `<li>${nestedContent}</li>\n`;
+                j++;
+              }
+              
+              listHtml += '</ul>';
+              // Don't increment j again as we need to process the next line
+              continue;
+            }
+          }
+          
+          j++;
+        }
+        
+        // Close the last item and the list
+        listHtml += '</li>\n</ul>';
+        processedText += listHtml + '\n';
+        i = j; // Skip all processed lines
+      } else {
+        // Regular line, add as is
+        processedText += lines[i] + '\n';
+        i++;
+      }
+    }
     
-    // Process paragraphs
-    text = text.replace(/^(?!<h|<ul|<ol|<li|<div|<blockquote)(.+)$/gm, '<p class="my-5 text-base leading-relaxed">$1</p>');
+    text = processedText;
+    
+    // Process paragraphs - avoid capturing lines that are already processed
+    text = text.replace(/^(?!<h|<ul|<ol|<li|<div|<blockquote)(.+)$/gm, '<p class="my-4 text-base leading-relaxed">$1</p>');
     
     // Process bold, italic, links, and inline code
     text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
     text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-primary hover:underline">$1</a>');
-    text = text.replace(/`([^`]+)`/g, '<code class="bg-muted px-1.5 py-0.5 rounded text-sm font-mono">$1</code>');
+    text = text.replace(/`([^`]+)`/g, '<code class="bg-muted px-1.5 py-0.5 rounded text-sm font-mono inline">$1</code>');
     
     // Process blockquotes
     text = text.replace(/^\>\s(.*$)/gm, '<blockquote class="border-l-4 border-primary pl-6 italic my-6">$1</blockquote>');
@@ -241,14 +307,14 @@ export default function BlogPost({ post }: BlogPostProps) {
       
       <style>{`
         .blog-content h1 {
-          font-size: 2rem;
+          font-size: 2.25rem;
           font-weight: 700;
           margin-top: 2.5rem;
           margin-bottom: 1.25rem;
           line-height: 1.2;
         }
         .blog-content h2 {
-          font-size: 1.75rem;
+          font-size: 1.875rem;
           font-weight: 700;
           margin-top: 2.25rem;
           margin-bottom: 1rem;
@@ -262,23 +328,41 @@ export default function BlogPost({ post }: BlogPostProps) {
           line-height: 1.4;
         }
         .blog-content p {
-          margin: 1.25rem 0;
+          margin: 1rem 0;
           line-height: 1.8;
           font-size: 1.0625rem;
         }
+        /* Improved list styles to align properly with text margin */
         .blog-content ul {
-          list-style-type: disc;
-          padding-left: 1.5rem;
-          margin: 0;
+          list-style-position: inside;
+          padding-left: 0;
+          margin: 0.75rem 0;
         }
         .blog-content ol {
-          list-style-type: decimal;
-          padding-left: 1.5rem;
-          margin: 1rem 0;
+          list-style-position: inside;
+          padding-left: 0;
+          margin: 0.75rem 0;
         }
         .blog-content li {
           margin: 0.5rem 0;
           line-height: 1.7;
+          text-indent: -1.5rem;
+          padding-left: 1.5rem;
+        }
+        /* Specifically target nested lists */
+        .blog-content li > ul {
+          margin-top: 0.5rem;
+          margin-bottom: 0;
+          padding-left: 1.5rem;
+        }
+        /* Fix for div > ul pattern */
+        .blog-content div > ul {
+          margin: 0.5rem 0;
+        }
+        /* Make nested list items align properly */
+        .blog-content li > ul > li {
+          padding-left: 1.5rem;
+          text-indent: -1.5rem;
         }
         .blog-content blockquote {
           margin: 2rem 0;
@@ -297,9 +381,21 @@ export default function BlogPost({ post }: BlogPostProps) {
         .blog-content code {
           font-family: 'Consolas', 'Monaco', 'Andale Mono', monospace;
           background-color: hsl(var(--muted));
-          padding: 0.2rem 0.4rem;
+          padding: 0.1rem 0.3rem;
           border-radius: 0.25rem;
           font-size: 0.9rem;
+          display: inline;
+          white-space: normal;
+          vertical-align: baseline;
+          position: relative;
+          margin: 0 0.1rem;
+        }
+        /* Specifically fix code blocks inside list items */
+        .blog-content li code {
+          vertical-align: baseline;
+          position: relative;
+          display: inline;
+          text-indent: 0;
         }
       `}</style>
     </MainLayout>
