@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import MainLayout from "@/layouts/main-layout";
 import { BlogPostDetail } from "@/data/blog-posts/getting-started-with-kubernetes";
-import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import CodeBlock from "@/components/code-block";
 
@@ -240,7 +239,7 @@ export default function BlogPost({ post }: BlogPostProps) {
         </div>
       </div>
       
-      <style jsx>{`
+      <style>{`
         .blog-content h1 {
           font-size: 2rem;
           font-weight: 700;

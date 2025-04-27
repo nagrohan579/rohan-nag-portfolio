@@ -62,7 +62,7 @@ export const CodeBlock = ({ code, language = "text" }: CodeBlockProps) => {
         </button>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .code-block-wrapper {
           position: relative;
           margin: 1.5rem 0;
