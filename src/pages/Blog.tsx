@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import MainLayout from "@/layouts/main-layout";
 import { cn } from "@/lib/utils";
 
@@ -21,7 +22,7 @@ const blogPosts: BlogPostProps[] = [
     date: "April 15, 2025",
     slug: "getting-started-with-kubernetes",
     category: "DevOps",
-    coverImage: "/placeholder-image-1.jpg",
+    coverImage: "/images/kubernetes.jpg",
     readTime: "8 min read",
     featured: true
   },
@@ -85,10 +86,13 @@ export default function Blog() {
     ? blogPosts
     : blogPosts.filter(post => post.category === selectedCategory);
 
-  const handleBlogClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
+  const handleBlogClick = (slug: string, e: React.MouseEvent<HTMLAnchorElement>) => {
+    // If the blog post exists (currently only Kubernetes), allow it to navigate
+    if (slug !== "getting-started-with-kubernetes") {
+      e.preventDefault();
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
+    }
   };
 
   return (
@@ -165,7 +169,11 @@ export default function Blog() {
                       viewport={{ once: true }}
                       className="group"
                     >
-                      <a href="#" onClick={handleBlogClick} className="block">
+                      <Link 
+                        to={`/blog/${post.slug}`} 
+                        onClick={(e) => handleBlogClick(post.slug, e)}
+                        className="block"
+                      >
                         <div className="rounded-lg border overflow-hidden transition-all hover:shadow-md">
                           <div className="h-56 bg-muted overflow-hidden">
                             <div className="w-full h-full bg-muted">
@@ -205,7 +213,7 @@ export default function Blog() {
                             </div>
                           </div>
                         </div>
-                      </a>
+                      </Link>
                     </motion.div>
                   ))}
               </div>
@@ -233,7 +241,11 @@ export default function Blog() {
                   viewport={{ once: true }}
                   className="py-6 first:pt-0"
                 >
-                  <a href="#" onClick={handleBlogClick} className="group">
+                  <Link 
+                    to={`/blog/${post.slug}`}
+                    onClick={(e) => handleBlogClick(post.slug, e)}
+                    className="group"
+                  >
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                       <div className="md:col-span-1">
                         <div className="aspect-video rounded-lg bg-muted overflow-hidden">
@@ -273,7 +285,7 @@ export default function Blog() {
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 </motion.div>
               ))}
             </div>

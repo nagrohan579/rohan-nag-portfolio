@@ -4,10 +4,19 @@ import { useLocation } from "react-router-dom";
 interface SEOProps {
   title?: string;
   description?: string;
+  image?: string;
+  keywords?: string[];
+  type?: string;
+  date?: string;
+  author?: string;
+  isArticle?: boolean;
 }
 
 const DEFAULT_TITLE = "Rohan Nag | DevOps Engineer & Software Developer Portfolio";
 const DEFAULT_DESCRIPTION = "Portfolio of Rohan Nag - DevOps Engineer and Software Developer specializing in cloud technologies and DevOps practices.";
+const DEFAULT_IMAGE = "/images/Rohan_Nag_Profile.JPG";
+const DEFAULT_AUTHOR = "Rohan Nag";
+const DEFAULT_KEYWORDS = ["DevOps", "Software Development", "Cloud Technologies", "Kubernetes", "CI/CD"];
 
 const pageMeta: Record<string, { title: string; description: string }> = {
   "/": {
@@ -36,9 +45,19 @@ const pageMeta: Record<string, { title: string; description: string }> = {
   }
 };
 
-export default function SEO({ title, description }: SEOProps) {
+export default function SEO({ 
+  title, 
+  description, 
+  image = DEFAULT_IMAGE,
+  keywords = DEFAULT_KEYWORDS,
+  type = "website",
+  date,
+  author = DEFAULT_AUTHOR,
+  isArticle = false
+}: SEOProps) {
   const location = useLocation();
   const path = location.pathname;
+  const currentUrl = window.location.origin + path;
   
   // Get page-specific metadata or use defaults
   const pageSEO = pageMeta[path] || { title: DEFAULT_TITLE, description: DEFAULT_DESCRIPTION };
@@ -46,47 +65,73 @@ export default function SEO({ title, description }: SEOProps) {
   // Use custom props if provided, otherwise use route-based metadata
   const finalTitle = title || pageSEO.title;
   const finalDescription = description || pageSEO.description;
+  const finalType = isArticle ? "article" : type;
+  const keywordsString = keywords.join(", ");
 
   useEffect(() => {
     // Update document title
     document.title = finalTitle;
     
     // Update meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute("content", finalDescription);
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
     }
+    metaDescription.setAttribute('content', finalDescription);
     
+    // Update keywords
+    let metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (!metaKeywords) {
+      metaKeywords = document.createElement('meta');
+      metaKeywords.setAttribute('name', 'keywords');
+      document.head.appendChild(metaKeywords);
+    }
+    metaKeywords.setAttribute('content', keywordsString);
+
     // Update Open Graph meta tags
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    
-    if (ogTitle) {
-      ogTitle.setAttribute("content", finalTitle);
+    const metaTags = [
+      { property: 'og:title', content: finalTitle },
+      { property: 'og:description', content: finalDescription },
+      { property: 'og:image', content: `${window.location.origin}${image}` },
+      { property: 'og:url', content: currentUrl },
+      { property: 'og:type', content: finalType },
+      { property: 'twitter:card', content: 'summary_large_image' },
+      { property: 'twitter:title', content: finalTitle },
+      { property: 'twitter:description', content: finalDescription },
+      { property: 'twitter:image', content: `${window.location.origin}${image}` }
+    ];
+
+    // Add article specific meta tags if it's a blog post
+    if (isArticle && date) {
+      metaTags.push(
+        { property: 'article:published_time', content: date },
+        { property: 'article:author', content: author }
+      );
     }
-    
-    if (ogDescription) {
-      ogDescription.setAttribute("content", finalDescription);
-    }
-    
-    // Update Twitter/X meta tags
-    const twitterTitle = document.querySelector('meta[property="twitter:title"]');
-    const twitterDescription = document.querySelector('meta[property="twitter:description"]');
-    
-    if (twitterTitle) {
-      twitterTitle.setAttribute("content", finalTitle);
-    }
-    
-    if (twitterDescription) {
-      twitterDescription.setAttribute("content", finalDescription);
-    }
+
+    // Set or create meta tags
+    metaTags.forEach(({ property, content }) => {
+      let metaTag = document.querySelector(`meta[property="${property}"]`);
+      if (!metaTag) {
+        metaTag = document.createElement('meta');
+        metaTag.setAttribute('property', property);
+        document.head.appendChild(metaTag);
+      }
+      metaTag.setAttribute('content', content);
+    });
     
     // Update canonical URL
-    const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) {
-      canonical.setAttribute("href", window.location.origin + path);
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
     }
-  }, [finalTitle, finalDescription, path]);
+    canonical.setAttribute('href', currentUrl);
+    
+  }, [finalTitle, finalDescription, image, finalType, currentUrl, keywordsString, isArticle, date, author]);
 
   return null;
 }

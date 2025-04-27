@@ -8,6 +8,7 @@ import About from "@/pages/About";
 import Experience from "@/pages/Experience";
 import Projects from "@/pages/Projects";
 import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
 import Contact from "@/pages/Contact";
 import "./App.css";
 
@@ -41,6 +42,11 @@ function AnimatedRoutes() {
         <Route path="/blog" element={
           <PageTransition>
             <Blog />
+          </PageTransition>
+        } />
+        <Route path="/blog/:slug" element={
+          <PageTransition>
+            <BlogPost />
           </PageTransition>
         } />
         <Route path="/contact" element={
