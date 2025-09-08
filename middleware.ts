@@ -71,23 +71,23 @@ export default function middleware(request) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Technical Blog | Rohan Nag - DevOps Engineer & Software Developer</title>
-    <meta name="description" content="Technical articles on DevOps, cloud computing, and software development by Rohan Nag" />
-    <meta name="keywords" content="DevOps blog, cloud computing articles, software development tutorials, Kubernetes, AWS, Jenkins" />
+    <title>Technical Blog | Rohan Nag - Development Engineer</title>
+    <meta name="description" content="Technical articles on DevOps, cloud computing, and infrastructure optimization by Rohan Nag" />
+    <meta name="keywords" content="DevOps blog, cloud computing articles, infrastructure optimization, Kubernetes, AWS, Jenkins" />
     <meta name="author" content="Rohan Nag" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="${url.href}" />
-    <meta property="og:title" content="Technical Blog | Rohan Nag - DevOps Engineer & Software Developer" />
-    <meta property="og:description" content="Technical articles on DevOps, cloud computing, and software development by Rohan Nag" />
+    <meta property="og:title" content="Technical Blog | Rohan Nag - Development Engineer" />
+    <meta property="og:description" content="Technical articles on DevOps, cloud computing, and infrastructure optimization by Rohan Nag" />
     <meta property="og:image" content="${url.origin}/images/Rohan_Nag_Profile.JPG" />
     
     <!-- Twitter / X -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="${url.href}" />
-    <meta property="twitter:title" content="Technical Blog | Rohan Nag - DevOps Engineer & Software Developer" />
-    <meta property="twitter:description" content="Technical articles on DevOps, cloud computing, and software development by Rohan Nag" />
+    <meta property="twitter:title" content="Technical Blog | Rohan Nag - Development Engineer" />
+    <meta property="twitter:description" content="Technical articles on DevOps, cloud computing, and infrastructure optimization by Rohan Nag" />
     <meta property="twitter:image" content="${url.origin}/images/Rohan_Nag_Profile.JPG" />
     
     <!-- Canonical URL -->
