@@ -15,65 +15,58 @@ interface ExperienceItem {
 
 const experiences: ExperienceItem[] = [
   {
+    title: "Development Engineer",
+    company: "Calsoft",
+    location: "Kolkata, India",
+    period: "Sep 2025 - Present",
+    description: [
+      "Currently working on a client project to migrate application from Node.js 11 to Node.js 22.",
+      "Setting up new CI/CD pipelines for improved deployment automation.",
+      "Optimizing MongoDB daily backups to S3 to reduce costs and improve efficiency.",
+      "Analyzing AWS infrastructure to reduce the current $400 monthly bill while maintaining performance.",
+      "Conducting AWS security reviews focusing on proper permissions and resource optimization.",
+      "Creating comprehensive documentation of the entire infrastructure setup for future reference.",
+      "Built testing environments using separate Ubuntu instances with Node.js and MongoDB to avoid affecting production servers."
+    ],    
+    skills: [
+      { name: "Node.js", docsUrl: "https://nodejs.org/docs/" },
+      { name: "MongoDB", docsUrl: "https://www.mongodb.com/docs/" },
+      { name: "AWS", docsUrl: "https://docs.aws.amazon.com/" },
+      { name: "CI/CD", docsUrl: "https://www.geeksforgeeks.org/devops/what-is-ci-cd/" },
+      { name: "Infrastructure Optimization", docsUrl: "https://bitwizards.com/blog/infrastructure-optimization" },
+      { name: "Security Review", docsUrl: "https://aws.amazon.com/security/" },
+      { name: "Documentation", docsUrl: "https://docs.github.com/en/get-started/writing-on-github" }
+    ]
+  },
+  {
     title: "DevOps Intern",
     company: "Calsoft",
     location: "Kolkata, India",
-    period: "Feb 2025 - Present",
+    period: "Feb 2025 - Aug 2025",
     description: [
-      "Familiarizing with core DevOps concepts including CI/CD workflows and deployment strategies.",
-      "Studying Docker and Kubernetes for containerization and orchestration.",
-      "Learning AWS fundamentals and cloud infrastructure provisioning.",
-      "Exploring automation practices using shell scripting and Git version control."
+      "Worked extensively with Docker and Kubernetes for containerization and orchestration in production environments.",
+      "Gained proficiency in AWS services and improved skills in cloud infrastructure management and cost optimization.",
+      "Built CI/CD pipelines using Jenkins, GitHub Actions, and AWS CodePipeline for automated deployment workflows.",
+      "Explored monitoring and observability solutions including Prometheus, Grafana, and DataDog for system health tracking.",
+      "Implemented Infrastructure as Code using Terraform and AWS CloudFormation for consistent environment provisioning.",
+      "Developed Ansible playbooks for simultaneous setup and configuration of Linux and Windows instances.",
+      "Created custom AMIs with pre-configured applications and startup scripts for automated instance deployment."
     ],    
     skills: [
       { name: "Docker", docsUrl: "https://docs.docker.com/" },
       { name: "Kubernetes", docsUrl: "https://kubernetes.io/docs/" },
       { name: "Jenkins", docsUrl: "https://www.jenkins.io/doc/" },
+      { name: "GitHub Actions", docsUrl: "https://docs.github.com/en/actions" },
+      { name: "AWS CodePipeline", docsUrl: "https://docs.aws.amazon.com/codepipeline/" },
       { name: "AWS", docsUrl: "https://docs.aws.amazon.com/" },
       { name: "Terraform", docsUrl: "https://developer.hashicorp.com/terraform/docs" },
-      { name: "Python", docsUrl: "https://docs.python.org/3/" },
-      { name: "Bash", docsUrl: "https://www.gnu.org/software/bash/manual/" }
+      { name: "AWS CloudFormation", docsUrl: "https://docs.aws.amazon.com/cloudformation/" },
+      { name: "Ansible", docsUrl: "https://docs.ansible.com/" },
+      { name: "Prometheus", docsUrl: "https://prometheus.io/docs/" },
+      { name: "Grafana", docsUrl: "https://grafana.com/docs/" },
+      { name: "DataDog", docsUrl: "https://docs.datadoghq.com/" }
     ]
   },
-  {
-    title: "Software Development Intern(Dummy Experience)",
-    company: "TechMinds Solutions",
-    location: "Remote",
-    period: "May 2024 - Aug 2024",
-    description: [
-      "Developed and maintained backend RESTful APIs using Spring Boot and Java.",
-      "Participated in daily Scrum meetings and collaborated with cross-functional teams.",
-      "Implemented authentication and authorization features using OAuth 2.0 and JWT.",
-      "Wrote unit and integration tests to ensure code quality and functionality."
-    ],
-    skills: [
-      { name: "Java", docsUrl: "https://docs.oracle.com/en/java/" },
-      { name: "Spring Boot", docsUrl: "https://docs.spring.io/spring-boot/docs/current/reference/html/" },
-      { name: "REST APIs", docsUrl: "https://restfulapi.net/" },
-      { name: "SQL", docsUrl: "https://dev.mysql.com/doc/" },
-      { name: "Git", docsUrl: "https://git-scm.com/docs" },
-      { name: "JUnit", docsUrl: "https://junit.org/junit5/docs/current/user-guide/" }
-    ]
-  },
-  {
-    title: "Research Assistant(Dummy Experience)",
-    company: "Asansol Engineering College",
-    location: "Asansol, India",
-    period: "Aug 2023 - Dec 2023",
-    description: [
-      "Assisted in research on machine learning applications in predictive maintenance.",
-      "Collected and preprocessed datasets for training predictive models.",
-      "Implemented and evaluated several machine learning algorithms using Python and scikit-learn.",
-      "Co-authored a research paper presented at a regional technical symposium."
-    ],
-    skills: [
-      { name: "Python", docsUrl: "https://docs.python.org/3/" },
-      { name: "scikit-learn", docsUrl: "https://scikit-learn.org/stable/documentation.html" },
-      { name: "Data Analysis", docsUrl: "https://pandas.pydata.org/docs/" },
-      { name: "Research", docsUrl: "https://scholar.google.com/" },
-      { name: "Technical Writing", docsUrl: "https://developers.google.com/tech-writing" }
-    ]
-  }
 ];
 
 export default function Experience() {
@@ -155,11 +148,11 @@ export default function Experience() {
             <div className="rounded-lg border bg-card p-6">
               <h3 className="text-xl font-bold">Bachelor of Technology in Computer Science</h3>
               <div className="text-muted-foreground mb-2">
-                Asansol Engineering College • 2021 - 2025 (Expected)
+                Asansol Engineering College • 2021 - 2025
               </div>
               <p className="text-muted-foreground mb-4">
-                Pursuing a B.Tech degree with focus on software engineering, cloud computing, and DevOps practices.
-                Currently maintaining a CGPA of 8.7/10.
+                Graduated with a B.Tech degree in Computer Science with focus on software engineering, cloud computing, and DevOps practices.
+                Achieved a CGPA of 8.74/10.
               </p>
               <div className="flex flex-wrap gap-2">
                 <a href="https://www.geeksforgeeks.org/data-structures/" target="_blank" rel="noopener noreferrer" className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors cursor-pointer">

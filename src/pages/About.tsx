@@ -54,18 +54,18 @@ export default function About() {
             <h1 className="text-3xl md:text-4xl font-bold mb-6">About Me</h1>
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <p className="text-muted-foreground">
-                I am Rohan Nag, a passionate Computer Science student at Asansol Engineering College, where I am pursuing my B.Tech degree. 
-                My academic journey has been focused on developing strong foundations in computer science principles while gaining practical experience 
-                through internships and personal projects.
+                I am Rohan Nag, currently working as a Development Engineer at Calsoft in Kolkata, specializing in the DevOps competency. 
+                I work on client projects involving infrastructure optimization, Node.js migrations, MongoDB backup optimization, 
+                and AWS cost reduction while ensuring secure and efficient systems.
               </p>
               <p className="text-muted-foreground">
-                Currently, I'm working as a DevOps Intern at Calsoft in Kolkata, where I'm gaining hands-on experience with 
-                deployment pipelines, containerization, and cloud infrastructure. My interests lie primarily in cloud native technologies, 
-                automation, and creating efficient, scalable software solutions.
+                Previously, I completed a DevOps internship at the same company where I gained hands-on experience with Docker, Kubernetes, 
+                CI/CD pipelines using Jenkins and GitHub Actions, and Infrastructure as Code using Terraform and Ansible. I also worked 
+                with monitoring tools like Prometheus, Grafana, and DataDog.
               </p>
               <p className="text-muted-foreground">
-                In addition to my technical pursuits, I enjoy participating in hackathons, contributing to open-source projects, 
-                and staying updated with the latest developments in technology.
+                I graduated with a B.Tech in Computer Science from Asansol Engineering College with a CGPA of 8.74/10, where I built 
+                strong foundations in software engineering and cloud computing principles.
               </p>
             </div>
           </motion.section>
@@ -115,10 +115,10 @@ export default function About() {
               )}>
                 <h3 className="text-lg font-semibold mb-3">Short-Term Goals</h3>
                 <ul className="space-y-2 text-muted-foreground">
-                  <li>• Complete my B.Tech with distinction (Expected 2025)</li>
-                  <li>• Secure a full-time position as a DevOps Engineer</li>
+                  <li>• Excel in my current Development Engineer role</li>
                   <li>• Obtain AWS and Kubernetes certifications</li>
                   <li>• Contribute to significant open-source projects</li>
+                  <li>• Master advanced DevOps tools and practices</li>
                 </ul>
               </div>
               <div className={cn(

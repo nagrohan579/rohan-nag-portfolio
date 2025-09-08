@@ -28,3 +28,7 @@ firebase.json
 *.njsproj
 *.sln
 *.sw?
+
+# Claude code files
+.claude/
+CLAUDE.md

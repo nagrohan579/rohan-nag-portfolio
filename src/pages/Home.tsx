@@ -18,7 +18,7 @@ export default function Home() {
           </h1>
           
           <h2 className="text-2xl md:text-3xl mb-8 text-muted-foreground">
-            Computer Science Student & DevOps Intern at Calsoft
+            Development Engineer at Calsoft
           </h2>
           
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -54,7 +54,7 @@ export default function Home() {
             <div className="md:w-2/3">
               <h3 className="text-2xl font-bold mb-4">About Me</h3>
               <p className="text-lg text-muted-foreground mb-6">
-              I'm a passionate Computer Science student with a focus on DevOps practices and cloud technologies. Currently pursuing my B.Tech at Asansol Engineering College, I am also working as a DevOps Intern at Calsoft, where I’m deepening my understanding of CI/CD, infrastructure automation, and cloud-native tools. I’m dedicated to building scalable, efficient, and reliable software systems that align with modern development workflows.
+              I'm a Development Engineer at Calsoft in the DevOps competency. I have experience with Docker, Kubernetes, AWS infrastructure, CI/CD pipelines using Jenkins and GitHub Actions, and Infrastructure as Code with Terraform and Ansible. Currently working on client projects involving Node.js migrations, MongoDB optimization, and AWS cost reduction while maintaining secure and efficient systems.
               </p>
               <Link to="/about" className="inline-flex items-center font-medium text-primary hover:underline">
                 Learn more about me
